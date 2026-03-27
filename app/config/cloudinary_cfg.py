@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Lấy thông tin cấu hình từ biến môi trường
-CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "YOUR_CLOUD_NAME")
-API_KEY = os.getenv("CLOUDINARY_API_KEY", "YOUR_API_KEY")
-API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "YOUR_API_SECRET")
+CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
+API_KEY = os.getenv("CLOUDINARY_API_KEY")
+API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
 
 # Hàm khởi tạo cấu hình (chỉ chạy 1 lần khi file này được import - Singleton Pattern)
 def init_cloudinary():

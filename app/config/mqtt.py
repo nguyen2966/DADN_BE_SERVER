@@ -1,6 +1,12 @@
-from adafruit_io.client import Client as AdafruitClient
+from Adafruit_IO.client import Client as AdafruitClient
+import os
+from dotenv import load_dotenv
 
-ADAFRUIT_IO_KEY = "YOUR_AIO_KEY"
-ADAFRUIT_IO_USERNAME = "YOUR_AIO_USERNAME"
+load_dotenv()  
 
-aio_client = AdafruitClient(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+ADAFRUIT_AIO_USERNAME = os.getenv("ADAFRUIT_AIO_USERNAME")
+ADAFRUIT_AIO_KEY = os.getenv("ADAFRUIT_AIO_KEY")
+
+
+aio_client = AdafruitClient(ADAFRUIT_AIO_USERNAME, ADAFRUIT_AIO_KEY)
+
