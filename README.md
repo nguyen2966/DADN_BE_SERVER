@@ -78,7 +78,7 @@ http://localhost:8000/docs
 
 # Dưới đây là tóm tắt các API chính:
 
-1. Phân loại & Điều khiển phần cứng (Edge API)
+## 1. Phân loại & Điều khiển phần cứng (Edge API)
 POST /predict
 
 Mô tả: Nhận file ảnh (raw bytes) từ mạch ESP32-CAM.
@@ -89,7 +89,7 @@ Input: Form-data (file: Hình ảnh JPEG/PNG).
 
 Auth: Không yêu cầu.
 
-2. Quản lý Tài khoản (Auth)
+## 2. Quản lý Tài khoản (Auth)
 POST /api/auth/register
 
 Mô tả: Đăng ký tài khoản người dùng mới.
@@ -104,7 +104,7 @@ Input: JSON chứa email, password.
 
 Output: Chuỗi JWT Token.
 
-3. Lịch sử & Thống kê (Dashboard)
+## 3. Lịch sử & Thống kê (Dashboard)
 GET /api/trash-logs
 
 Mô tả: Lấy danh sách lịch sử các lần vứt rác gần nhất (Kèm nhãn, độ tin cậy AI, URL hình ảnh, thời gian).
@@ -112,7 +112,7 @@ Mô tả: Lấy danh sách lịch sử các lần vứt rác gần nhất (Kèm 
 Query Params: limit (Mặc định: 10 bản ghi).
 
 Cấu trúc thư mục cốt lõi
-Plaintext
+```Plaintext
 .
 ├── app/
 │   ├── config/          # Khởi tạo Singleton (DB, MQTT, Cloudinary, AI Model)
@@ -123,4 +123,4 @@ Plaintext
 │   └── main.py          # File entry-point khởi chạy FastAPI
 ├── .env                 # File chứa các key bảo mật (Không push lên Git)
 ├── requirements.txt     # Danh sách thư viện Python
-└── smartbin_model.h5    # File mô hình AI (TensorFlow)
+```
