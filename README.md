@@ -56,13 +56,6 @@ ADAFRUIT_IO_KEY=key_adafruit_cua_ban
 
 # JWT Secret (Tự tạo một chuỗi ngẫu nhiên bất kỳ)
 JWT_SECRET=chuoi_ky_tu_bi_mat_cua_ban_123!@#
-### 5. Nạp mô hình Trí tuệ Nhân tạo
-Hệ thống cần mô hình nhận diện ảnh (TensorFlow/Keras).
-
-Đổi tên file mô hình AI của bạn thành smartbin_model.h5.
-
-Đặt file này vào thư mục gốc của dự án.
-(Hoặc bạn có thể đổi đường dẫn trong file app/config/model_loader.py)
 
 ### 6. Khởi động Server
 Chạy lệnh sau để bật server với chế độ tự động reload (hot-reload):
