@@ -1,5 +1,7 @@
-from fastapi import APIRouter, File, Form, BackgroundTasks, HTTPException
+from fastapi import APIRouter, File, Form, BackgroundTasks, HTTPException, Depends
 from app.services.ai_service import AIService
+
+from app.core.security import get_current_user
 
 router = APIRouter()
 
@@ -7,6 +9,7 @@ router = APIRouter()
 async def predict_endpoint(
     background_tasks: BackgroundTasks,
     file: bytes = File(...)
+    # current_user: dict = Depends(get_current_user)
 ):
     try:
         # Route gọi xuống Service, truyền BackgroundTasks để xử lý side-effects
