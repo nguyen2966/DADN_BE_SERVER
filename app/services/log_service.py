@@ -25,7 +25,7 @@ class LogService:
                 "non_recyclable_count": 0,
                 "ratio":                None,
                 "level":                "unknown",
-                "advice":               "No waste data available yet. Start logging to receive personalised advice.",
+                "advice":               "Chưa có dữ liệu rác thải nào. Hãy bắt đầu ghi nhận để nhận lời khuyên phù hợp.",
             }
  
         ratio = non_recyclable / recyclable if recyclable > 0 else float("inf")
@@ -34,35 +34,35 @@ class LogService:
         if ratio == float("inf"):
             level  = "critical"
             advice = (
-                "All of your logged waste is non-recyclable. "
-                "Try to replace single-use plastics and food packaging with "
-                "reusable or compostable alternatives."
+                "Toàn bộ rác thải của bạn đều là rác không thể tái chế. "
+                "Hãy thử thay thế đồ nhựa dùng một lần và bao bì thực phẩm "
+                "bằng các sản phẩm có thể tái sử dụng hoặc phân hủy sinh học."
             )
         elif ratio >= 3:
             level  = "poor"
             advice = (
-                f"Your non-recyclable waste is {ratio:.1f}× your recyclable waste — "
-                "this is quite high. Consider auditing your most common waste types "
-                "and switching to products with eco-friendly packaging."
+                f"Lượng rác không thể tái chế của bạn gấp {ratio:.1f} lần rác có thể tái chế — "
+                "tỉ lệ này khá cao. Hãy xem xét lại các loại rác phổ biến nhất của bạn "
+                "và chuyển sang sử dụng sản phẩm có bao bì thân thiện với môi trường."
             )
         elif ratio >= 1.5:
             level  = "moderate"
             advice = (
-                f"Your non-recyclable ratio is {ratio:.1f}×. You're making some effort, "
-                "but there's room to improve. Look for recyclable substitutes for your "
-                "top non-recyclable items."
+                f"Tỉ lệ rác không thể tái chế của bạn là {ratio:.1f} lần. Bạn đang có những nỗ lực nhất định, "
+                "nhưng vẫn còn nhiều điều có thể cải thiện. Hãy tìm kiếm các sản phẩm thay thế "
+                "có thể tái chế cho những loại rác không tái chế phổ biến nhất của bạn."
             )
         elif ratio >= 0.8:
             level  = "good"
             advice = (
-                f"Good balance! Your non-recyclable ratio is {ratio:.1f}×. "
-                "Keep it up and try to reduce overall waste volume."
+                f"Tỉ lệ khá tốt! Lượng rác không thể tái chế của bạn gấp {ratio:.1f} lần rác tái chế. "
+                "Hãy duy trì thói quen này và cố gắng giảm thêm tổng lượng rác thải."
             )
         else:
             level  = "excellent"
             advice = (
-                f"Excellent! Your recyclable waste far outweighs non-recyclable ({ratio:.1f}×). "
-                "Share your habits with others and aim for zero-waste milestones."
+                f"Xuất sắc! Lượng rác tái chế của bạn vượt trội hơn hẳn rác không tái chế (tỉ lệ {ratio:.1f} lần). "
+                "Hãy chia sẻ thói quen tốt này với mọi người xung quanh và hướng tới mục tiêu không rác thải."
             )
  
         return {
