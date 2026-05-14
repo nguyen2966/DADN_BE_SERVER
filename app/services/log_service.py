@@ -14,8 +14,8 @@ class LogService:
         """
         logs = await LogService.get_recent_logs(limit)
  
-        recyclable     = sum(1 for log in logs if log.get("is_recyclable") is True)
-        non_recyclable = sum(1 for log in logs if log.get("is_recyclable") is False)
+        recyclable     = sum(1 for log in logs if log.get("label") == "recycle")
+        non_recyclable = sum(1 for log in logs if not log.get("label") == "recycle")
         total          = recyclable + non_recyclable
  
         # Avoid division-by-zero when there are no logs yet
