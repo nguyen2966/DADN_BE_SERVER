@@ -32,15 +32,13 @@ class AIService:
         # 1. AI Phân loại
         label, confidence = AIService.process_and_predict(file_bytes)
 
-        final_label = "recycle" if confidence > 0.5 else "non-recycle"
-
         # 2. Upload Cloudinary (Chạy đồng bộ để lấy URL ngay)
         upload_result = cloudinary.uploader.upload(file_bytes, folder="smart_bin")
         image_url = upload_result.get("secure_url")
 
         # 3. Chuẩn bị dữ liệu lưu DB
         log_document = {
-            "label": final_label,
+            "label": label,
             "confidence": confidence,
             "imageUrl": image_url,
             "thrownAt": datetime.now(timezone.utc)
@@ -48,10 +46,10 @@ class AIService:
 
         # 4. Kích hoạt Observers (Background Tasks)
         background_tasks.add_task(save_to_mongodb_observer, log_document)
-        background_tasks.add_task(publish_mqtt_observer, final_label)
+        background_tasks.add_task(publish_mqtt_observer, label)
 
         return {
-            "label": final_label,
+            "label": label,
             "confidence": confidence,
             "imageUrl": image_url
         }
