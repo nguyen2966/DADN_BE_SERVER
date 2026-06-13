@@ -104,9 +104,46 @@ Mô tả: Lấy danh sách lịch sử các lần vứt rác gần nhất (Kèm 
 
 Query Params: limit (Mặc định: 10 bản ghi).
 
-Cấu trúc thư mục cốt lõi
+## 4. Lời khuyên sức khỏe / sống xanh
+
+**GET** `/api/trash-logs/health-advice`
+
+**Mô tả:**
+Phân tích lịch sử phân loại rác gần nhất để tính tỷ lệ giữa rác tái chế và rác không tái chế. Dựa trên tỷ lệ này, hệ thống đánh giá mức độ thói quen sống xanh của người dùng và gọi AI thông qua Ollama để tạo lời khuyên phù hợp.
+
+**Query Params:**
+
+| Tham số | Kiểu dữ liệu | Bắt buộc | Mặc định | Mô tả                                            |
+| ------- | ------------ | -------: | -------: | ------------------------------------------------ |
+| `limit` | `number`     |    Không |    `100` | Số lượng bản ghi gần nhất được dùng để phân tích |
+
+**Response trả về gồm:**
+
+| Trường                 | Kiểu dữ liệu     | Mô tả                                                                                              |
+| ---------------------- | ---------------- | -------------------------------------------------------------------------------------------------- |
+| `recyclable_count`     | `number`         | Số lượng rác tái chế                                                                               |
+| `non_recyclable_count` | `number`         | Số lượng rác không tái chế                                                                         |
+| `ratio`                | `number \| null` | Tỷ lệ rác không tái chế trên rác tái chế                                                           |
+| `level`                | `string`         | Mức đánh giá thói quen sống xanh, gồm `unknown`, `nguy cấp`, `kém`, `trung bình`, `tốt`, `rất tốt` |
+| `advice`               | `string`         | Lời khuyên được tạo bởi AI dựa trên dữ liệu thống kê                                               |
+
+**Ví dụ response:**
+
+```json
+{
+  "recyclable_count": 8,
+  "non_recyclable_count": 12,
+  "ratio": 1.5,
+  "level": "trung bình",
+  "advice": "Bạn đang có thói quen phân loại rác ở mức trung bình. Hãy cố gắng giảm lượng rác không tái chế bằng cách ưu tiên sử dụng sản phẩm có thể tái chế hoặc tái sử dụng."
+}
+```
+
+
+# Cấu trúc thư mục cốt lõi
 ```Plaintext
 .
+├── venv/                # Chứa các package cần thiết
 ├── app/
 │   ├── config/          # Khởi tạo Singleton (DB, MQTT, Cloudinary, AI Model)
 │   ├── core/            # Chứa các hàm Observer chạy ngầm (Background Tasks)
@@ -116,4 +153,32 @@ Cấu trúc thư mục cốt lõi
 │   └── main.py          # File entry-point khởi chạy FastAPI
 ├── .env                 # File chứa các key bảo mật (Không push lên Git)
 ├── requirements.txt     # Danh sách thư viện Python
+```
+
+# Unit tests for Smart Bin Backend
+
+## Mô tả tổng quan về 19 unit test
+
+Hệ thống được xây dựng với tổng cộng **19 unit test**, tập trung vào ba service chính: **AI Service**, **Authentication Service** và **Log Service**. Trong đó, AI Service có 5 test case, Authentication Service có 6 test case và Log Service có 8 test case.
+
+Các unit test này được thiết kế để kiểm tra những chức năng cốt lõi của từng service. Với AI Service, các test tập trung vào xử lý ảnh hợp lệ, ảnh không hợp lệ, bước tiền xử lý ảnh, upload ảnh và luồng phân loại hoàn chỉnh. Với Authentication Service, các test kiểm tra đăng ký tài khoản, xử lý email trùng, đăng nhập đúng/sai thông tin và tạo JWT token. Với Log Service, các test kiểm tra truy vấn lịch sử, xử lý trường hợp không có dữ liệu, phân loại mức độ dựa trên tỷ lệ recycle/non-recycle và xử lý lỗi khi Ollama không phản hồi.
+
+Các test này là hợp lý vì chúng bao phủ cả **luồng thành công** và **luồng lỗi** của hệ thống. Những thành phần bên ngoài như mô hình AI, Cloudinary, MongoDB và Ollama đều được mock, giúp bài kiểm thử chỉ tập trung vào logic nội bộ của service. Nhờ đó, kết quả test ổn định, chạy nhanh và không phụ thuộc vào môi trường bên ngoài.
+
+
+## Chạy test
+Đứng ở thư mục gốc `smart-bin-backend` rồi chạy:
+
+```bash
+python -m pytest app/test -q
+```
+
+## Ghi chú
+
+- `test_ai_service.py` mock `app.config.model_loader` trước khi import `AIService`, nên pytest sẽ không load file `clean_model.keras` thật.
+- Các async test dùng `asyncio.run(...)`, nên không cần cài thêm `pytest-asyncio`.
+## Kết quả mong đợi
+```
+...................                                                                                                               
+19 passed in 0.62s
 ```

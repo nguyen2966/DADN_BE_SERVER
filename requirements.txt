@@ -23,3 +23,5 @@ adafruit_io>=2.7.1
 
 
 python-dotenv>=1.0.0
+
+pytest
