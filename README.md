@@ -15,23 +15,27 @@
 ## Hướng dẫn Cài đặt & Chạy dự án
 
 ### 1. Yêu cầu hệ thống (Prerequisites)
+
 * Python 3.9 trở lên.
-* Đã có tài khoản: MongoDB Atlas, Cloudinary, và Adafruit IO.
+* Đã có tài khoản: MongoDB Atlas, Cloudinary và Adafruit IO.
 
 ### 2. Thiết lập môi trường
+
 Tạo và kích hoạt môi trường ảo (Virtual Environment) để tránh xung đột thư viện:
+
 ```bash
 # Tạo môi trường ảo (Windows/macOS/Linux)
 python -m venv venv
 
-# Kích hoạt trên Windows:
+# Kích hoạt trên Windows
 .\venv\Scripts\activate
 
-# Kích hoạt trên macOS/Linux:
+# Kích hoạt trên macOS/Linux
 source venv/bin/activate
 ```
 
 ### 3. Cài đặt thư viện
+
 Chạy lệnh sau để cài đặt toàn bộ thư viện cần thiết:
 
 ```bash
@@ -39,9 +43,10 @@ pip install -r requirements.txt
 ```
 
 ### 4. Cấu hình Biến môi trường (.env)
-Tạo một file tên là .env ở thư mục gốc của dự án (ngang hàng với app/) và điền các thông tin của bạn vào:
 
-Code snippet
+Tạo file `.env` ở thư mục gốc của dự án (ngang hàng với thư mục `app/`) và điền thông tin của bạn:
+
+```env
 # MongoDB Atlas
 MONGO_URI="mongodb+srv://<username>:<password>@cluster0...mongodb.net/?retryWrites=true&w=majority"
 
@@ -56,18 +61,89 @@ ADAFRUIT_IO_KEY=key_adafruit_cua_ban
 
 # JWT Secret (Tự tạo một chuỗi ngẫu nhiên bất kỳ)
 JWT_SECRET=chuoi_ky_tu_bi_mat_cua_ban_123!@#
+```
+
+### 5. Cài đặt và chạy Ollama
+
+Dự án sử dụng mô hình ngôn ngữ cục bộ thông qua Ollama. Thực hiện các bước sau:
+
+#### Bước 1: Cài đặt Ollama
+
+Tải và cài đặt Ollama từ:
+
+* macOS/Linux: https://ollama.com
+* Windows: https://ollama.com/download
+
+Sau khi cài đặt, kiểm tra phiên bản:
+
+```bash
+ollama --version
+```
+
+#### Bước 2: Tải mô hình Qwen 2.5 3B
+
+```bash
+ollama pull qwen2.5:3b
+```
+
+Quá trình tải có thể mất vài phút tùy thuộc vào tốc độ mạng.
+
+#### Bước 3: Khởi động mô hình
+
+```bash
+ollama run qwen2.5:3b
+```
+
+Hoặc chỉ cần khởi động Ollama service:
+
+```bash
+ollama serve
+```
+
+Mặc định Ollama sẽ chạy API tại:
+
+```text
+http://localhost:11434
+```
+
+Kiểm tra kết nối:
+
+```bash
+curl http://localhost:11434/api/tags
+```
+
+Nếu nhận được danh sách model, Ollama đã hoạt động thành công.
 
 ### 6. Khởi động Server
+
 Chạy lệnh sau để bật server với chế độ tự động reload (hot-reload):
 
-```Bash
+```bash
 uvicorn app.main:app --reload
 ```
-Nếu terminal hiện dòng chữ "Pinged your deployment. You successfully connected to MongoDB Atlas!" nghĩa là mọi thứ đã hoàn hảo.
 
-Tài liệu API (API Contract)
-Hệ thống cung cấp sẵn tài liệu Interactive API (Swagger UI). Sau khi chạy server, bạn truy cập:
+Nếu terminal hiện dòng:
+
+```text
+Pinged your deployment. You successfully connected to MongoDB Atlas!
+```
+
+thì hệ thống đã kết nối thành công với MongoDB Atlas và sẵn sàng sử dụng.
+
+---
+
+## Tài liệu API (API Contract)
+
+Hệ thống cung cấp sẵn tài liệu Interactive API (Swagger UI).
+
+Sau khi chạy server, truy cập:
+
+```text
 http://localhost:8000/docs
+```
+
+để xem và thử nghiệm toàn bộ API của hệ thống.
+
 
 # Dưới đây là tóm tắt các API chính:
 
